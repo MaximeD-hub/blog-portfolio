@@ -6,6 +6,15 @@ require_once '../includes/auth.php';
 
 requireAdmin();
 
+// Suppression d'un article (DOIT être avant tout HTML)
+if (isset($_GET['delete'])) {
+    $id = (int) $_GET['delete'];
+    $pdo->prepare("DELETE FROM comments WHERE id_article = :id")->execute([':id' => $id]);
+    $pdo->prepare("DELETE FROM articles WHERE id = :id")->execute([':id' => $id]);
+    header('Location: index.php');
+    exit();
+}
+
 // Récupération de tous les articles
 $stmt = $pdo->prepare("
     SELECT a.id, a.title, a.created_at, c.name AS category
@@ -79,14 +88,3 @@ $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </body>
 </html>
-
-<?php
-// Suppression d'un article
-if (isset($_GET['delete'])) {
-    $id = (int) $_GET['delete'];
-    $pdo->prepare("DELETE FROM comments WHERE id_article = :id")->execute([':id' => $id]);
-    $pdo->prepare("DELETE FROM articles WHERE id = :id")->execute([':id' => $id]);
-    header('Location: index.php');
-    exit();
-}
-?>
