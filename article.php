@@ -81,12 +81,11 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         <div class="container">
             <a href="index.php" class="logo">Mon Blog</a>
             <nav class="nav">
-                <a href="index.php">Accueil</a>
                 <?php if (isAdmin()): ?>
                     <a href="admin/index.php">Back-office</a>
                     <a href="admin/logout.php">Déconnexion</a>
                 <?php else: ?>
-                    <a href="admin/login.php">Admin</a>
+                    <a href="admin/login.php">Connexion</a>
                 <?php endif; ?>
             </nav>
         </div>
